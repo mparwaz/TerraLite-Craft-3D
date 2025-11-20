@@ -690,8 +690,14 @@
         requestAnimationFrame(animate);
 
         const time = performance.now();
+        const delta = (time - prevTime) / 1000;
+      
+       const playerObj = controls.getObject() || camera;
+        let currentFPS = 0;
+
+        const time = performance.now();
         if (controls.isLocked === true) {
-            const delta = (time - prevTime) / 1000;
+           
             
             updateChunks();
 
@@ -773,6 +779,15 @@
         }
 
         prevTime = time;
+
+  document.getElementById('info').innerHTML = `
+            <b>Minimal Voxel Engine (Dynamic Chunks)</b><br>
+            FPS: ${Math.round(1 / delta)} | 
+            Pos: ${playerObj.position.x.toFixed(1)}, ${playerObj.position.y.toFixed(1)}, ${playerObj.position.z.toFixed(1)} | 
+            Blocks: ${objects.length}
+        `;
+
+        
         renderer.render(scene, camera);
     }
 
